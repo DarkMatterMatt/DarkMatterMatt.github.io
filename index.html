@@ -29,19 +29,24 @@
 	<script>
 		"use strict";
 		const PAGES = {
-			Stuckifier: ["stuckifier", "'stick' the forward/back buttons", "work in progress"],
+			infinite_history: 	["Infinite History", "Browser navigation doesn't seem to work anymore... ;)", "work in progress"],
+			library:			["Library Browsing History Converter", "Convert text formatted browsing history to a format that can be imported to a spreadsheet", "work in progress"]
 		};
-		
+
 		// creates a exclamation mark to display next to WIP pages
-		const WORK_IN_PROGRESS = document.createElement("i");
-		WORK_IN_PROGRESS.setAttribute("class", "material-icons");
-		WORK_IN_PROGRESS.appendChild(document.createTextNode("warning"));
-		
+		function makeWIPIcon() {
+			var wip = document.createElement("i");
+			wip.setAttribute("class", "material-icons");
+			wip.setAttribute("title", "Work in progress");
+			wip.appendChild(document.createTextNode("warning"));
+			return wip;
+		}
+
 		// loop through pages, generate table rows for each page
 		const table = document.querySelector("#main>table>tbody");
-		for (let name in PAGES) {
-			const [link, descriptionText, workInProgress] = PAGES[name];
-			
+		for (let link in PAGES) {
+			let [name, descriptionText, workInProgress] = PAGES[link];
+
 			// make table row and table data elements and add them to the table
 			const row = document.createElement("tr");
 			const page = document.createElement("td");
@@ -49,17 +54,17 @@
 			row.appendChild(page);
 			row.appendChild(desc);
 			table.appendChild(row);
-			
+
 			// if it's WIP then add the exclamation mark, then a space before the name
 			if (workInProgress) {
-				page.appendChild(WORK_IN_PROGRESS);
+				page.appendChild(makeWIPIcon());
 				name = " " + name;
 			}
-			
+
 			// add text
 			page.appendChild(document.createTextNode(name));
 			desc.appendChild(document.createTextNode(descriptionText));
-			
+
 			// make row clickable to the link
 			row.setAttribute("href", link);
 			row.setAttribute("style", "cursor: pointer");

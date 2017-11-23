@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Infinite History | DMM</title>
+	<link rel="stylesheet" type="text/css" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+	<div class="w3-responsive w3-display-middle w3-center">
+		<div id="historyLevel" class="w3-jumbo">0</div>
+		<p>
+			Click the browser navigation back or forward button to change the number
+			<br>
+			Keyboard shortcuts work too :)
+		</p>
+	</div>
+	<script>
+		"use strict";
+		document.addEventListener("DOMContentLoaded", ev => {
+			// this page is loaded when the back button is clicked
+			history.replaceState({page: -1}, "", "");
+			
+			// this is the main page
+			history.pushState({page: 0}, "", "");
+			
+			// this page is loaded when the forward button is clicked
+			history.pushState({page: 1}, "", "");
+			
+			// go back to main page
+			history.back()
+			
+			window.addEventListener("popstate", ev => {
+				// do nothing if we're on the "main" page
+				if (ev.state.page === 0){
+					return;
+				}
+				// if we've hit the "back" page
+				else if (ev.state.page === -1){
+					// if the user has click back enough then we'll let them leave
+					if (historyLevel <= lowesthistoryLevel) {
+						history.back(); // leave page by going back once more
+					}
+					// otherwise decrement historyLevel and return to main page
+					else {
+						historyLevel--;
+						history.forward();
+					}
+				}
+				// if we've hit the "forward" page then increment
+				// historyLevel and return to main page
+				else if (ev.state.page === 1){
+					historyLevel++;
+					history.back();
+				}
+				document.getElementById("historyLevel").innerText = historyLevel;
+			});
+		});
+		
+		let historyLevel = 0;
+		const lowesthistoryLevel = -5;
+	</script>
+</body>
+</html>

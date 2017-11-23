@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Infinite History | DMM</title>
+	<link rel="stylesheet" type="text/css" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+<div class="w3-display-middle">
+	<div class="w3-responsive w3-container w3-center w3-card-4">
+		<div class="w3-panel w3-green w3-center">
+			<p>History level counter</p>
+		</div>
+		<div id="historyLevel" class="w3-jumbo">0</div>
+		<p>
+			Click the browser navigation back or forward button to change the number
+			<br>
+			Keyboard shortcuts work too :)
+		</p>
+	</div>
+	<div class="w3-responsive w3-container w3-card-4 w3-margin-top">
+		<div class="w3-panel w3-green w3-center">
+			<p>Encode data in hash</p>
+		</div>
+		<form id="form" action="javascript: void 0;">
+			<p>
+				<label class="w3-text-blue">Data</label>
+				<input class="w3-input w3-border" type="text">
+			</p><p>
+				<label class="w3-text-blue">Value</label>
+				<input class="w3-input w3-border" type="text">
+			</p><p>
+				<label class="w3-text-blue">Thingy</label>
+				<input class="w3-input w3-border" type="text">
+			</p><p>
+				<button class="w3-btn w3-blue">Encode!</button>
+			</p>
+		</form>
+	</div>
+</div>
+	<script>
+		"use strict";
+		let historyLevel = 0;
+		const historyData = [];
+		const lowestHistoryLevel = -5;
+		
+		// current url without hash
+		const url = window.location.href;
+		const urlWithoutHash = url.slice(0, url.indexOf("#"));
+		
+		// back button page, main page, forward button page, then go back to main page
+		history.replaceState({page: "backPage"}, "", "");
+		history.pushState({}, "", "");
+		
+		// DOM elements
+		let historyLevelElem, formElem, formPElems;
+		
+		document.addEventListener("DOMContentLoaded", ev => {
+			historyLevelElem = document.getElementById("historyLevel");
+			formElem = document.getElementById("form");
+			formPElems = formElem.getElementsByTagName("p");
+		
+			window.addEventListener("popstate", ev => {
+				// main page
+				if (!ev.state.page){
+					console.log(ev);
+				}
+				// back page
+				else if (ev.state.page === "backPage"){
+					// if the user clicks back enough then we'll let them leave
+					if (historyLevel <= lowestHistoryLevel) {
+						history.back(); // leave page by going back once more
+					}
+					// otherwise decrement historyLevel and return to main page
+					else {
+						historyLevel--;
+						history.forward();
+						if (historyLevel < historyData.length) {
+							history.pushState({page: 1}, "", "");
+							history.back()
+						}
+					}
+				}
+				// forward page
+				else if (ev.state.page === "forwardPage"){
+					// otherwise increment historyLevel and return to main page
+					historyLevel++;
+					history.back();
+				}
+				historyLevelElem.innerText = historyLevel;
+			});
+			
+			formElem.addEventListener("submit", ev => {
+				const data = getData();
+				if (data.length) { 
+					saveData(data);
+				}
+				dataToHash(data);
+			});
+		});
+		
+		function getData() {
+			const data = [];
+			for (let i = 0; i < formPElems.length - 1; i++) { // -1 excludes button
+				const elem = formPElems[i];
+				const name = elem.getElementsByTagName("label")[0].innerText;
+				const value = elem.getElementsByTagName("input")[0].value;
+				if (name && value) {
+					data.push([name, value]);
+				}
+			}
+			return data;
+		}
+		
+		function saveData(data) {
+			if (historyLevel < historyData.length) {
+				historyData = historyData.slice(0, historyLevel);
+			}
+			historyData.push(data);
+			historyLevel++;
+		}
+		
+		function dataToHash(data) {
+			const dataStringsArray = [];
+			for (var i = 0; i < data.length; i++) {
+				dataStringsArray.push(data[i][0] + "=" + data[i][1]);
+			}
+		
+			if (dataStringsArray.length) {
+				const hash = "#" + dataStringsArray.join("&");
+				history.replaceState({}, "", hash);
+			} else {
+				history.replaceState({}, "", urlWithoutHash);
+			}
+		}
+	</script>
+</body>
+</html>
