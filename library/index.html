@@ -4,123 +4,29 @@
 <head>
     <title>Library Browsing History Converter | DMM</title>
     <link rel="stylesheet" type="text/css" href="https://www.w3schools.com/w3css/4/w3.css">
-    <style>
-        #textarea {
-            white-space: nowrap;
-            width: 80vw;
-            max-width: 1000px;
-            height: 50vh;
-            max-height: 500px;
-        }
-
-        button {
-            margin: auto;
-        }
-
-        label {
-            margin-left: 0.5em;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 
 <body class="w3-pale-blue">
     <div class="w3-responsive w3-display-middle w3-center w3-container w3-card-4 w3-padding-16 w3-pale-green">
         <h2>Library Browsing History Converter</h2>
         <h4>Convert text formatted browsing history to a format that can be imported to a spreadsheet</h4>
-        <form action="javascript: void 0;" class="">
-            <textarea id="textarea" class="w3-small" wrap="off" placeholder="Enter data to be converted..."></textarea>
-            <br>
-            <div class="w3-panel">
-                Delimiter:
-                <label>Pipe</label>
-                <input class="w3-radio" type="radio" name="delimiter" value="|" checked>
-                <label>Tab</label>
-                <input class="w3-radio" type="radio" name="delimiter" value="tab">
-            </div>
-            <button id="convert" class="w3-button w3-light-green w3-hover-indigo" type="submit">Convert</button>
-            <button id="reset" class="w3-button w3-light-green w3-hover-indigo" style="display: none;">Reset</button>
-        </form>
+        <textarea id="textarea" class="w3-small" wrap="off" placeholder="Enter data to be converted..."></textarea>
+        <br>
+        <div id="delimiter_panel" class="w3-panel">
+            Delimiter:
+            <label>Comma</label>
+            <input class="w3-radio" type="radio" name="delimiter" value="comma" checked>
+            <label>Pipe</label>
+            <input class="w3-radio" type="radio" name="delimiter" value="pipe">
+            <label>Tab</label>
+            <input class="w3-radio" type="radio" name="delimiter" value="tab">
+        </div>
+        <button id="convert" class="w3-button w3-light-green w3-hover-indigo" type="submit">Convert</button>
+        <button id="download" class="w3-button w3-light-green w3-hover-indigo w3-hide">Download CSV</button>
+        <button id="reset" class="w3-button w3-light-green w3-hover-indigo w3-hide">Reset</button>
     </div>
-    <script>
-        "use strict";
-
-        function download(filename, text) {
-            var pom = document.createElement("a");
-            pom.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text));
-            pom.setAttribute("download", filename);
-
-            if (document.createEvent) {
-                var event = document.createEvent("MouseEvents");
-                event.initEvent("click", true, true);
-                pom.dispatchEvent(event);
-            } else {
-                pom.click();
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            var convertElem = document.getElementById("convert");
-            var resetElem = document.getElementById("reset");
-            var textareaElem = document.getElementById("textarea");
-
-            convertElem.addEventListener("click", function(ev) {
-                var delimiter = document.querySelector("input[name='delimiter']:checked").value;
-                if (delimiter == "tab") delimiter = "\t";
-
-                var textarea = textareaElem.value;
-                if (!textarea)
-                    return;
-                textarea = textarea.replace("Return To Previous Screen Clear Saved Records", "");
-                textarea = textarea.replace(/\n[ \t\r]+/g, " ");
-                if (textarea.indexOf("\n\n") === -1) {
-                    textarea = textarea.replace(/Record/g, "\nRecord");
-                }
-                var books = textarea.split("\n\n");
-                var regRecord = new RegExp(/Record (\d+)/);
-                var booksProcessed = [["Record #", "Author", "Title", "Publication Info"].join(delimiter)];
-                for (var i = 0; i < books.length; i++) {
-                    var record = "",
-                        author = [],
-                        title = [],
-                        pub = [];
-                    if (!books[i]) {
-                        continue;
-                    }
-
-
-                    var info_raw = books[i].split("\n");
-                    for (var j = 0; j < info_raw.length; j++) {
-                        var str = info_raw[j]
-                        if (str.startsWith("Record")) {
-                            var match = str.match(regRecord);
-                            if (!match) continue;
-                            record = match[1];
-                        } else if (str.startsWith("AUTHOR")) {
-                            author.push(str.replace("AUTHOR", "").trim());
-                        } else if (str.startsWith("TITLE")) {
-                            title.push(str.replace("TITLE", "").trim());
-                        } else if (str.startsWith("PUB INFO")) {
-                            pub.push(str.replace("PUB INFO", "").trim());
-                        }
-                    }
-                    author = author ? author.join(", ") : " ";
-                    title = title ? title.join(", ") : " ";
-                    pub = pub ? pub.join(", ") : " ";
-                    booksProcessed.push([record, author, title, pub].join(delimiter));
-                }
-                console.log(booksProcessed);
-                textareaElem.value = booksProcessed.join("\n");
-                convertElem.style.display = "none";
-                resetElem.style.display = "block";
-            });
-
-            resetElem.addEventListener("click", function(ev) {
-                textareaElem.value = "";
-                resetElem.style.display = "none";
-                convertElem.style.display = "block";
-            });
-        });
-    </script>
+    <script src="index.js"></script>
 </body>
 
 </html>
