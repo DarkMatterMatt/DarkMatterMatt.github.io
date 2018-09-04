@@ -1,0 +1,19 @@
+#textarea {
+    white-space: nowrap;
+    width: 80vw;
+    max-width: 1000px;
+    height: 50vh;
+    max-height: 500px;
+}
+
+button {
+    margin: auto;
+}
+
+label {
+    margin-left: 0.5em;
+}
+
+.invisible {
+    visibility: hidden;
+}

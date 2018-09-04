@@ -1,0 +1,24 @@
+#logo {
+    margin-left: -8px;
+}
+
+#registration_form {
+    max-width: 600px;
+    margin: auto;
+}
+
+input[name="dob_day"] {
+    width: auto;
+}
+
+select[name="dob_month"] {
+    width: auto;
+}
+
+input[name="dob_year"] {
+    width: auto;
+}
+
+.red {
+    color: red;
+}

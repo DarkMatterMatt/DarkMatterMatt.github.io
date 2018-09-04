@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Auckland City Libraries | Register</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="register.css">
+</head>
+<body>
+    <form id="registration_form" class="w3-container w3-padding-16" method="post" action="https://www.elgar.govt.nz/selfreg~S1/patselfrg1">
+        <img id="logo" src="https://www.aucklandlibraries.govt.nz/_catalogs/masterpage/resources/images/ac-logo-no-tag.png">
+        <div class="w3-container w3-blue w3-section">
+            <h3>Register</h3>
+        </div>
+        <div class="container">
+            <h4 class="w3-text-blue"><b>Personal Details</b></h4>
+            <p>
+                <label for="nfirst"><b>First Name <span class="red">*</span></b></label>
+                <input class="w3-input" name="nfirst" pattern="[A-Za-z']+" title="Name must only contain letters." required>
+            </p>
+            <p>
+                <label for="nmiddle"><b>Middle Name(s)</b></label>
+                <input class="w3-input" name="nmiddle" type="text" pattern="[A-Za-z' ]+" title="Name must only contain letters.">
+            </p>
+            <p>
+                <label for="nlast"><b>Last / Family Name <span class="red">*</span></b></label>
+                <input class="w3-input" name="nlast" type="text" pattern="[A-Za-z']+" title="Name must only contain letters." required>
+            </p>
+            <p>
+                <label for="F044pcode1"><b>Gender</b></label>
+                <select class="w3-select" name="F044pcode1">
+                    <option value="n">Please Select ...</option>
+                    <option value="m">Male</option>
+                    <option value="f">Female</option>
+                    <option value="d">Gender Diverse</option>
+                </select>
+            </p>
+            <p id="dob_container">
+                <label for="dob_month"><b>Birth date <span class="red">*</span></b></label><br>
+                <select class="w3-select w3-show-inline-block" name="dob_month" required>
+                    <option value="01">January</option>
+                    <option value="02">Feburary</option>
+                    <option value="03">March</option>
+                    <option value="04">April</option>
+                    <option value="05">May</option>
+                    <option value="06">June</option>
+                    <option value="07">July</option>
+                    <option value="08">August</option>
+                    <option value="09">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+                <input class="w3-input w3-show-inline-block" name="dob_day" type="number" min="1" max="31" placeholder="19" required>
+                <input class="w3-input w3-show-inline-block" name="dob_year" type="number" min="1900" max="9999" placeholder="1970" required>
+            </p>
+            <p>
+                <label for="F046pcode3"><b>Reading Language</b></label>
+                <select class="w3-select" name="F046pcode3">
+                    <option value="0" selected="selected">English</option>
+                    <option value="1">Maori</option>
+                    <option value="2">Afrikaans</option>
+                    <option value="3">Arabic</option>
+                    <option value="4">Cambodian</option>
+                    <option value="5">Chinese</option>
+                    <option value="6">Cook Island Maori</option>
+                    <option value="7">Danish</option>
+                    <option value="8">Dutch</option>
+                    <option value="9">French</option>
+                    <option value="10">German</option>
+                    <option value="11">Hindi</option>
+                    <option value="12">Italian</option>
+                    <option value="13">Japanese</option>
+                    <option value="14">Korean</option>
+                    <option value="15">Malay</option>
+                    <option value="16">Niuean</option>
+                    <option value="17">Polish</option>
+                    <option value="18">Russian</option>
+                    <option value="19">Samoan</option>
+                    <option value="20">Serbian</option>
+                    <option value="21">Spanish</option>
+                    <option value="22">Tagalog</option>
+                    <option value="23">Tokelau</option>
+                    <option value="24">Tongan</option>
+                    <option value="25">Vietnamese</option>
+                    <option value="26">Other</option>
+                    <option value="27">Bengali</option>
+                    <option value="28">Bulgarian</option>
+                    <option value="29">Croatian</option>
+                    <option value="30">Fijian</option>
+                    <option value="31">Greek</option>
+                    <option value="32">Indonesian</option>
+                    <option value="33">Kurdish</option>
+                    <option value="34">Lao</option>
+                    <option value="35">Macedonian</option>
+                    <option value="36">Persian</option>
+                    <option value="37">Punjabi</option>
+                    <option value="38">Rarotongan</option>
+                    <option value="39">Sinhalese</option>
+                    <option value="40">South American Indian</option>
+                    <option value="41">Tamil</option>
+                    <option value="42">Thai</option>
+                    <option value="43">Urdu</option>
+                </select>
+            </p>
+            <p>
+                <label for="F045pcode2"><b>Ethnicity</b></label>
+                <select class="w3-select" name="F045pcode2">
+                    <option value="z">Please Select ...</option>
+                    <option value="e">NZ European</option>
+                    <option value="m">Maori</option>
+                    <option value="d">African</option>
+                    <option value="r">Arab</option>
+                    <option value="g">Australian</option>
+                    <option value="b">Cambodian</option>
+                    <option value="c">Chinese</option>
+                    <option value="q">Cook Islander</option>
+                    <option value="f">Fijian</option>
+                    <option value="o">Filipino</option>
+                    <option value="i">Indian</option>
+                    <option value="j">Japanese</option>
+                    <option value="k">Korean</option>
+                    <option value="n">Niuean</option>
+                    <option value="s">Samoan</option>
+                    <option value="a">South African</option>
+                    <option value="l">Tokelauan</option>
+                    <option value="t">Tongan</option>
+                    <option value="v">Vietnamese</option>
+                    <option value="y">Other Asian</option>
+                    <option value="w">Other Mideast</option>
+                    <option value="u">Other European</option>
+                    <option value="p">Other Pacific</option>
+                    <option value="x">Other</option>
+                </select>
+            </p>
+        </div>
+        <div class="container">
+            <h4 class="w3-text-blue"><b>Contact Details</b></h4>
+            <p>
+                <label for="address"><b>Address <span class="red">*</span></b></label>
+                <input class="w3-input" name="address" pattern="\d.*" title="Address must include a street number." required>
+            </p>
+            <p>
+                <label for="tphone1"><b>Phone (home)</b></label>
+                <input class="w3-input" name="hphone" pattern="[\d -]+" title="Phone number must only contain digits.">
+            </p>
+            <p>
+                <label for="pphone2"><b>Phone (mobile)</b></label>
+                <input class="w3-input" name="mphone" pattern="[\d -]+" title="Phone number must only contain digits.">
+            </p>
+            <p>
+                <label for="zemailaddr"><b>Email <span class="red">*</span></b></label>
+                <input class="w3-input" name="zemailaddr" type="email" required>
+            </p>
+        </div>
+        <div class="w3-hide">
+            <input name="F051birthdate"> <!-- ddmmyyyy -->
+            <input name="full_aaddress"> <!-- house number and street -->
+            <input name="stre_aaddress"> <!-- suburb - why called street??? -->
+            <input name="city_aaddress"> <!-- city -->
+            <input name="post_aaddress"> <!-- post code -->
+        </div>
+        <button class="w3-bar w3-button w3-blue w3-padding w3-center" type="submit">Submit</button>
+    </form>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhydgSB5cboVebVcrbikQ_FwLwq22KmB0&libraries=places&region=NZ"></script>
+    <script src="register.js"></script>
+</body>
+</html>

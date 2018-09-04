@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Library Reading History Converter | DMM</title>
+    <link rel="stylesheet" type="text/css" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" type="text/css" href="reading_history_converter.css">
+</head>
+
+<body class="w3-pale-blue">
+    <div class="w3-responsive w3-display-middle w3-center w3-container w3-card-4 w3-padding-16 w3-pale-green">
+        <h2>Library Reading History Converter</h2>
+        <h4>Convert text formatted reading history to a format that can be imported to a spreadsheet</h4>
+        <textarea id="textarea" class="w3-small" wrap="off" placeholder="Enter data to be converted..."></textarea>
+        <br>
+        <div id="delimiter_panel" class="w3-panel">
+            Delimiter:
+            <label>Comma</label>
+            <input class="w3-radio" type="radio" name="delimiter" value="comma" checked>
+            <label>Pipe</label>
+            <input class="w3-radio" type="radio" name="delimiter" value="pipe">
+            <label>Tab</label>
+            <input class="w3-radio" type="radio" name="delimiter" value="tab">
+        </div>
+        <button id="convert" class="w3-button w3-light-green w3-hover-indigo" type="submit">Convert</button>
+        <button id="download" class="w3-button w3-light-green w3-hover-indigo w3-hide">Download CSV</button>
+        <button id="reset" class="w3-button w3-light-green w3-hover-indigo w3-hide">Reset</button>
+    </div>
+    <script src="reading_history_converter.js"></script>
+</body>
+
+</html>
