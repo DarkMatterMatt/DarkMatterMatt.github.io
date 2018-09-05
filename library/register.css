@@ -2,9 +2,11 @@
     margin-left: -8px;
 }
 
-#registration_form {
-    max-width: 600px;
-    margin: auto;
+@media (orientation: landscape) {
+    #registration_form {
+        max-width: 600px;
+        margin: auto;
+    }
 }
 
 input[name="dob_day"] {
