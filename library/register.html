@@ -153,16 +153,17 @@
                 <input class="w3-input" name="zemailaddr" type="email" required>
             </p>
         </div>
-        <div class="w3-hide">
+        <div class="w3-hide"> <!-- Hidden fields to send to server -->
             <input name="F051birthdate"> <!-- ddmmyyyy -->
             <input name="full_aaddress"> <!-- house number and street -->
-            <input name="stre_aaddress"> <!-- suburb - why called street??? -->
+            <input name="stre_aaddress"> <!-- suburb - why is this called "stre_aaddress"? -->
             <input name="city_aaddress"> <!-- city -->
             <input name="post_aaddress"> <!-- post code -->
         </div>
         <button class="w3-bar w3-button w3-blue w3-padding w3-center" type="submit">Submit</button>
     </form>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhydgSB5cboVebVcrbikQ_FwLwq22KmB0&libraries=places&region=NZ"></script>
+    <script src="http://wzrd.in/standalone/uuid%2Fv4@latest"></script>
     <script src="register.js"></script>
 </body>
 </html>

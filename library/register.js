@@ -7,7 +7,7 @@ var dobYearElem             = document.querySelector("input[name=dob_year]");
 var dobElemForServer        = document.querySelector("input[name=F051birthdate]");
 var addressElem             = document.querySelector("input[name=address]");
 var streetElemForServer     = document.querySelector("input[name=full_aaddress]");
-var suburbElemForServer     = document.querySelector("input[name=stre_aaddress]");
+var suburbElemForServer     = document.querySelector("input[name=stre_aaddress]"); // why is this called "stre_aaddress"?
 var cityElemForServer       = document.querySelector("input[name=city_aaddress]");
 
 function getComponentsByTypeObject(address_components) {
@@ -33,12 +33,12 @@ function getComponentsByTypeObject(address_components) {
     return components;
 }
 
-// this is run when the Google Places API is loaded, it sets up the address autocomplete
+// this is run when the Google Places API is loaded, sets up the address autocomplete
 google.maps.event.addDomListener(window, "load", function() {
     // starts autocomplete for the element "address"
     autocomplete = new google.maps.places.Autocomplete(
         addressElem,
-        { types: ["address"] }
+        { types: ["address"], sessiontoken: uuidv4() }
     );
 });
 
@@ -55,7 +55,7 @@ formElem.addEventListener("submit", function(ev) {
     suburbElemForServer.value = split_address[1];
     cityElemForServer.value   = split_address[2] + " " + components["postal_code"];
     
-    /* below code is nicer, but doesn't update when manually edited (e.g. to add a street number *
+    /* below code is nicer, but doesn't update when manually edited (e.g. to add a street number)
     streetElemForServer.value = components["street_number"] + " " + components["route"];
     suburbElemForServer.value = components["sublocality"];
     cityElemForServer.value = components["locality"] + " " + components["postal_code"];*/
