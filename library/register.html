@@ -5,17 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="register.css">
+    
+    <!-- Favicons from realfavicongenerator.net -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+    <link rel="manifest" href="favicons/site.webmanifest">
+    <link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#1895cb">
+    <link rel="shortcut icon" href="favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-config" content="favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
 </head>
 <body>
     <form id="registration_form" class="w3-container w3-padding-16" method="post" action="https://www.elgar.govt.nz/selfreg~S1/patselfrg1">
         <img id="logo" src="https://www.aucklandlibraries.govt.nz/_catalogs/masterpage/resources/images/ac-logo-no-tag.png">
-        <div class="w3-container w3-blue w3-section">
+        <div class="w3-container blue w3-section">
             <h3>Register</h3>
         </div>
         <div class="container">
-            <h4 class="w3-text-blue"><b>Personal Details</b></h4>
+            <h4 class="text-blue"><b>Personal Details</b></h4>
             <p>
-                <label for="nfirst"><b>First Name <span class="red">*</span></b></label>
+                <label for="nfirst"><b>First Name <span class="text-red">*</span></b></label>
                 <input class="w3-input" name="nfirst" pattern="[A-Za-z']+" title="Name must only contain letters." required>
             </p>
             <p>
@@ -23,7 +34,7 @@
                 <input class="w3-input" name="nmiddle" type="text" pattern="[A-Za-z' ]+" title="Name must only contain letters.">
             </p>
             <p>
-                <label for="nlast"><b>Last / Family Name <span class="red">*</span></b></label>
+                <label for="nlast"><b>Last / Family Name <span class="text-red">*</span></b></label>
                 <input class="w3-input" name="nlast" type="text" pattern="[A-Za-z']+" title="Name must only contain letters." required>
             </p>
             <p>
@@ -36,7 +47,7 @@
                 </select>
             </p>
             <p id="dob_container">
-                <label for="dob_month"><b>Birth date <span class="red">*</span></b></label><br>
+                <label for="dob_month"><b>Birth date <span class="text-red">*</span></b></label><br>
                 <select class="w3-select w3-show-inline-block" name="dob_month" required>
                     <option value="01">January</option>
                     <option value="02">Feburary</option>
@@ -135,9 +146,9 @@
             </p>
         </div>
         <div class="container">
-            <h4 class="w3-text-blue"><b>Contact Details</b></h4>
+            <h4 class="text-blue"><b>Contact Details</b></h4>
             <p>
-                <label for="address"><b>Address <span class="red">*</span></b></label>
+                <label for="address"><b>Address <span class="text-red">*</span></b></label>
                 <input class="w3-input" name="address" pattern="\d.*" title="Address must include a street number." required>
             </p>
             <p>
@@ -149,7 +160,7 @@
                 <input class="w3-input" name="mphone" pattern="[\d -]+" title="Phone number must only contain digits.">
             </p>
             <p>
-                <label for="zemailaddr"><b>Email <span class="red">*</span></b></label>
+                <label for="zemailaddr"><b>Email <span class="text-red">*</span></b></label>
                 <input class="w3-input" name="zemailaddr" type="email" required>
             </p>
         </div>
@@ -160,10 +171,10 @@
             <input name="city_aaddress"> <!-- city -->
             <input name="post_aaddress"> <!-- post code -->
         </div>
-        <button class="w3-bar w3-button w3-blue w3-padding w3-center" type="submit">Submit</button>
+        <button class="w3-bar w3-button blue w3-padding w3-center" type="submit">Submit</button>
     </form>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhydgSB5cboVebVcrbikQ_FwLwq22KmB0&libraries=places&region=NZ"></script>
-    <script src="http://wzrd.in/standalone/uuid%2Fv4@latest"></script>
+    <script src="uuidv4.min.js"></script>
     <script src="register.js"></script>
 </body>
 </html>
