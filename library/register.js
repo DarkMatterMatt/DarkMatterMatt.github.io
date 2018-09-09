@@ -1,16 +1,27 @@
 "use strict";
-var autocomplete;
-var formElem                = document.getElementById("registration_form");
-var dobDayElem              = document.querySelector("input[name=dob_day]");
-var dobMonthElem            = document.querySelector("select[name=dob_month]");
-var dobYearElem             = document.querySelector("input[name=dob_year]");
-var dobElemForServer        = document.querySelector("input[name=F051birthdate]");
-var addressElem             = document.querySelector("input[name=address]");
-var streetElemForServer     = document.querySelector("input[name=full_aaddress]");
-var suburbElemForServer     = document.querySelector("input[name=stre_aaddress]"); // why is this called "stre_aaddress"?
-var cityElemForServer       = document.querySelector("input[name=city_aaddress]");
+var homeAutocomplete, postalAutocomplete;
+var formElem                  = document.getElementById("registration_form");
+var guardianSectionElem       = document.getElementById("guardian_section");
+//var guardianDobDayElem      = document.querySelector("input[name=guardian_dob_day]");
+//var guardianDobMonthElem    = document.querySelector("select[name=guardian_dob_month]");
+var guardianDobYearElem       = document.querySelector("input[name=guardian_dob_year]");
+var guardianNameElem          = document.querySelector("input[name=guardian_name]");
+var dobDayElem                = document.querySelector("input[name=dob_day]");
+var dobMonthElem              = document.querySelector("select[name=dob_month]");
+var dobYearElem               = document.querySelector("input[name=dob_year]");
+var dobElemForServer          = document.querySelector("input[name=F051birthdate]");
+var homeAddressElem           = document.querySelector("input[name=home_address]");
+var homeStreetElemForServer   = document.querySelector("input[name=full_haddress2]");
+var homeSuburbElemForServer   = document.querySelector("input[name=stre_haddress2]"); // why is this called "stre_aaddress"?
+var homeCityElemForServer     = document.querySelector("input[name=city_haddress2]");
+var postalAddressElem         = document.querySelector("input[name=postal_address]");
+var postalStreetElemForServer = document.querySelector("input[name=full_aaddress]");
+var postalSuburbElemForServer = document.querySelector("input[name=stre_aaddress]");
+var postalCityElemForServer   = document.querySelector("input[name=city_aaddress]");
 
 function getComponentsByTypeObject(address_components) {
+    // accepts a list of google address components
+    // returns an object that maps the component type to a name
     var components = {};
     for (var i = 0; i < address_components.length; i++) {
         var component = address_components[i];
@@ -33,11 +44,42 @@ function getComponentsByTypeObject(address_components) {
     return components;
 }
 
+function checkMemberAge() {
+    // show guardian info box if the member is younger than 18
+    if (dobYearElem.value && dobMonthElem.value && dobDayElem.value) {
+        // calculate age
+        var today = new Date();
+        var birthDate = new Date(dobYearElem.value, dobMonthElem.value - 1, dobDayElem.value);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        
+        if (age < 18) {
+            guardianSectionElem.classList.remove("w3-hide");
+        }
+        else {
+            guardianSectionElem.classList.add("w3-hide");
+        }
+    }
+}
+
+// show guardian info box if the member is younger than 18
+dobDayElem.addEventListener("change", checkMemberAge);
+dobMonthElem.addEventListener("change", checkMemberAge);
+dobYearElem.addEventListener("change", checkMemberAge);
+
 // this is run when the Google Places API is loaded, sets up the address autocomplete
 google.maps.event.addDomListener(window, "load", function() {
-    // starts autocomplete for the element "address"
-    autocomplete = new google.maps.places.Autocomplete(
-        addressElem,
+    // starts autocomplete for the element "home_address"
+    homeAutocomplete = new google.maps.places.Autocomplete(
+        homeAddressElem,
+        { types: ["address"], sessiontoken: uuidv4() }
+    );
+    // starts autocomplete for the element "postal_address"
+    postalAutocomplete = new google.maps.places.Autocomplete(
+        postalAddressElem,
         { types: ["address"], sessiontoken: uuidv4() }
     );
 });
@@ -47,16 +89,41 @@ formElem.addEventListener("submit", function(ev) {
     var day = (dobDayElem.value < 10 ? "0" : "") + dobDayElem.value;
     dobElemForServer.value = day + dobMonthElem.value + dobYearElem.value;
     
-    // Populate hidden address fields
-    var place = autocomplete.getPlace();
-    var components = getComponentsByTypeObject(place.address_components);
-    var split_address = addressElem.value.split(", ");
-    streetElemForServer.value = split_address[0];
-    suburbElemForServer.value = split_address[1];
-    cityElemForServer.value   = split_address[2] + " " + components["postal_code"];
+    // Populate hidden home address fields
+    var homePlace = homeAutocomplete.getPlace();
+    var homeComponents = getComponentsByTypeObject(homePlace.address_components);
+    var homeSplitAddress = addressElem.value.split(", ");
+    homeStreetElemForServer.value = homeSplitAddress[0];
+    homeSuburbElemForServer.value = homeSplitAddress[1];
+    homeCityElemForServer.value   = homeSplitAddress[2] + " " + homeComponents["postal_code"];
     
     /* below code is nicer, but doesn't update when manually edited (e.g. to add a street number)
-    streetElemForServer.value = components["street_number"] + " " + components["route"];
-    suburbElemForServer.value = components["sublocality"];
-    cityElemForServer.value = components["locality"] + " " + components["postal_code"];*/
+    homeStreetElemForServer.value = components["street_number"] + " " + components["route"];
+    homeSuburbElemForServer.value = components["sublocality"];
+    homeCityElemForServer.value = components["locality"] + " " + components["postal_code"];*/
+    
+    // Populate hidden postal address fields
+    if (postalAddressElem.value) {
+        var postalPlace = postalAutocomplete.getPlace();
+        var postalComponents = getComponentsByTypeObject(postalPlace.address_components);
+        var postalSplitAddress = addressElem.value.split(", ");
+        postalStreetElemForServer.value = postalSplitAddress[0];
+        postalSuburbElemForServer.value = postalSplitAddress[1];
+        postalCityElemForServer.value   = postalSplitAddress[2] + " " + postalComponents["postal_code"];
+    }
+    else {
+        postalStreetElemForServer.value = homeStreetElemForServer.value;
+        postalSuburbElemForServer.value = homeSuburbElemForServer.value;
+        postalCityElemForServer.value   = homeCityElemForServer.value;
+    }
+    
+    // If member doesn't have a parent or guardian put the library in that field
+    if (!guardianNameElem.value) {
+        guardianNameElem.value = "For inquiries about this membership please talk to your community manager.";
+    }
 });
+
+// don't allow birth dates that are in the future (or younger than 18 for the guardian)
+var today = new Date();
+dobYearElem.setAttribute("max", today.getFullYear());
+guardianDobYearElem.setAttribute("max", today.getFullYear() - 18);

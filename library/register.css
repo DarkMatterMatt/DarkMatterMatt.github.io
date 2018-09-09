@@ -4,18 +4,6 @@ body {
     --blue: #1895cb;
 }
 
-input[name="dob_day"] {
-    width: auto;
-}
-
-select[name="dob_month"] {
-    width: auto;
-}
-
-input[name="dob_year"] {
-    width: auto;
-}
-
 .red {
     background-color: var(--red) !important;
     color: white !important;
@@ -43,6 +31,23 @@ input[name="dob_year"] {
     color: var(--blue) !important;
 }
 
+input[type=checkbox] {
+    vertical-align: middle;
+    transform: scale(1.2);
+}
+
+input[name$="dob_day"] {
+    width: auto;
+}
+
+select[name$="dob_month"] {
+    width: auto;
+}
+
+input[name$="dob_year"] {
+    width: auto;
+}
+
 #registration_form {
     max-width: 600px;
     margin: auto;
@@ -50,4 +55,9 @@ input[name="dob_year"] {
 
 #logo {
     margin-left: -8px;
+}
+
+#guardian_section {
+    padding-left: 8px;
+    border-left: 1px solid var(--blue);
 }
