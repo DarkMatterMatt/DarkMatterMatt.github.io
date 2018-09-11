@@ -90,28 +90,38 @@ formElem.addEventListener("submit", function(ev) {
     dobElemForServer.value = day + dobMonthElem.value + dobYearElem.value;
     
     // Populate hidden home address fields
-    var homePlace = homeAutocomplete.getPlace();
-    var homeComponents = getComponentsByTypeObject(homePlace.address_components);
-    console.log(homeComponents["postal_code"][0]);
     var homeSplitAddress = homeAddressElem.value.split(", ");
     homeStreetElemForServer.value = homeSplitAddress[0];
     homeSuburbElemForServer.value = homeSplitAddress[1];
-    homeCityElemForServer.value   = homeSplitAddress[2] + " " + homeComponents["postal_code"][0];
+    homeCityElemForServer.value   = homeSplitAddress[2];
     
-    /* below code is nicer, but doesn't update when manually edited (e.g. to add a street number)
+    // Add post code from Google Place lookup
+    var homePlace = homeAutocomplete.getPlace();
+    if (homePlace) {
+        var homeComponents = getComponentsByTypeObject(homePlace.address_components);
+        homeCityElemForServer.value += " " + homeComponents["postal_code"][0]["short_name"];
+    }
+    
+    /* this code is nicer, but doesn't update when manually edited (e.g. to add a street number)
     homeStreetElemForServer.value = components["street_number"] + " " + components["route"];
     homeSuburbElemForServer.value = components["sublocality"];
     homeCityElemForServer.value = components["locality"] + " " + components["postal_code"];*/
     
     // Populate hidden postal address fields
     if (postalAddressElem.value) {
-        var postalPlace = postalAutocomplete.getPlace();
-        var postalComponents = getComponentsByTypeObject(postalPlace.address_components);
         var postalSplitAddress = postalAddressElem.value.split(", ");
         postalStreetElemForServer.value = postalSplitAddress[0];
         postalSuburbElemForServer.value = postalSplitAddress[1];
-        postalCityElemForServer.value   = postalSplitAddress[2] + " " + postalComponents["postal_code"][0];
+        postalCityElemForServer.value   = postalSplitAddress[2];
+        
+        // Add post code from Google Place lookup
+        var postalPlace = postalAutocomplete.getPlace();
+        if (postalPlace) {
+            var postalComponents = getComponentsByTypeObject(postalPlace.address_components);
+            postalCityElemForServer.value += " " + postalComponents["postal_code"][0]["short_name"];
+        }
     }
+    // If postal address is empty, copy the home address
     else {
         postalStreetElemForServer.value = homeStreetElemForServer.value;
         postalSuburbElemForServer.value = homeSuburbElemForServer.value;
