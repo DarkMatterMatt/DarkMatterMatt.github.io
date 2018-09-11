@@ -92,7 +92,7 @@ formElem.addEventListener("submit", function(ev) {
     // Populate hidden home address fields
     var homePlace = homeAutocomplete.getPlace();
     var homeComponents = getComponentsByTypeObject(homePlace.address_components);
-    var homeSplitAddress = addressElem.value.split(", ");
+    var homeSplitAddress = homeAddressElem.value.split(", ");
     homeStreetElemForServer.value = homeSplitAddress[0];
     homeSuburbElemForServer.value = homeSplitAddress[1];
     homeCityElemForServer.value   = homeSplitAddress[2] + " " + homeComponents["postal_code"][0];
@@ -106,7 +106,7 @@ formElem.addEventListener("submit", function(ev) {
     if (postalAddressElem.value) {
         var postalPlace = postalAutocomplete.getPlace();
         var postalComponents = getComponentsByTypeObject(postalPlace.address_components);
-        var postalSplitAddress = addressElem.value.split(", ");
+        var postalSplitAddress = postalAddressElem.value.split(", ");
         postalStreetElemForServer.value = postalSplitAddress[0];
         postalSuburbElemForServer.value = postalSplitAddress[1];
         postalCityElemForServer.value   = postalSplitAddress[2] + " " + postalComponents["postal_code"][0];
