@@ -92,7 +92,7 @@ formElem.addEventListener("submit", function(ev) {
     // Populate hidden home address fields
     var homePlace = homeAutocomplete.getPlace();
     var homeComponents = getComponentsByTypeObject(homePlace.address_components);
-    console.log(homeComponents);
+    console.log(homeComponents["postal_code"][0]);
     var homeSplitAddress = homeAddressElem.value.split(", ");
     homeStreetElemForServer.value = homeSplitAddress[0];
     homeSuburbElemForServer.value = homeSplitAddress[1];
