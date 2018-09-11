@@ -72,10 +72,12 @@
                 <p>
                     <label for="guardian_name">
                         <p style="font-size: 0.8em">
-                            Children and Young Adults (under 18) will need a parent or guardian as their guarantor.
-                            As a guarantor, you will need to show your personal ID and proof of address and sign the membership card.
-                            In signing as a guarantor you are accepting responsibility for any charges incurred on that card and your records may be linked.
-                            If you do not have a parent or guardian you may leave this blank.
+                            <i>
+                                Children and Young Adults (under 18) will need a parent or guardian as their guarantor.
+                                As a guarantor, you will need to show your personal ID and proof of address and sign the membership card.
+                                In signing as a guarantor you are accepting responsibility for any charges incurred on that card and your records may be linked.
+                                If you do not have a parent or guardian you may leave this blank.
+                            </i>
                         </p>
                         <b>Parent/Guardian's Full Name</b>
                     </label>
@@ -189,7 +191,7 @@
             </p>
             <p>
                 <label for="postal_address"><b>Postal Address</b> <span style="font-size: 0.8em">(if different to home address)</span></label>
-                <input class="w3-input" name="postal_address" pattern="\d.*" title="Address must include a street number." required>
+                <input class="w3-input" name="postal_address" pattern="\d.*" title="Address must include a street number.">
             </p>
             <p>
                 <label for="tphone1"><b>Home Phone</b></label>
@@ -200,8 +202,18 @@
                 <input class="w3-input" name="mphone" pattern="[\d -]+" title="Phone number must only contain digits.">
             </p>
             <p>
-                <label for="zemailaddr"><b>Email <span class="text-red">*</span></b></label>
-                <input class="w3-input" name="zemailaddr" type="email" required>
+                <label for="zemailaddr">
+                    <b>Email</b>
+                    <p style="font-size: 0.8em">
+                        <i>
+                            Leave this blank if you do not wish to receive email from the library about overdue items and requests ready for pickup.
+                            Email is the fastest way to receive notices from the library.
+                            We will send you an email to confirm this address.
+                            If you do not wish to receive promotional email from the library, please mention this when you get your library card.
+                        </i>
+                    </p>
+                </label>
+                <input class="w3-input" name="zemailaddr" type="email">
             </p>
         </div>
         <div>

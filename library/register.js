@@ -95,7 +95,7 @@ formElem.addEventListener("submit", function(ev) {
     var homeSplitAddress = addressElem.value.split(", ");
     homeStreetElemForServer.value = homeSplitAddress[0];
     homeSuburbElemForServer.value = homeSplitAddress[1];
-    homeCityElemForServer.value   = homeSplitAddress[2] + " " + homeComponents["postal_code"];
+    homeCityElemForServer.value   = homeSplitAddress[2] + " " + homeComponents["postal_code"][0];
     
     /* below code is nicer, but doesn't update when manually edited (e.g. to add a street number)
     homeStreetElemForServer.value = components["street_number"] + " " + components["route"];
@@ -109,7 +109,7 @@ formElem.addEventListener("submit", function(ev) {
         var postalSplitAddress = addressElem.value.split(", ");
         postalStreetElemForServer.value = postalSplitAddress[0];
         postalSuburbElemForServer.value = postalSplitAddress[1];
-        postalCityElemForServer.value   = postalSplitAddress[2] + " " + postalComponents["postal_code"];
+        postalCityElemForServer.value   = postalSplitAddress[2] + " " + postalComponents["postal_code"][0];
     }
     else {
         postalStreetElemForServer.value = homeStreetElemForServer.value;
