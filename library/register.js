@@ -91,15 +91,20 @@ formElem.addEventListener("submit", function(ev) {
     
     // Populate hidden home address fields
     var homeSplitAddress = homeAddressElem.value.split(", ");
-    homeStreetElemForServer.value = homeSplitAddress[0];
-    homeSuburbElemForServer.value = homeSplitAddress[1];
-    homeCityElemForServer.value   = homeSplitAddress[2];
+    homeStreetElemForServer.value = homeSplitAddress[0] || "";
+    if (homeSplitAddress.length >= 3) {
+        homeSuburbElemForServer.value = homeSplitAddress[1] || "";
+        homeCityElemForServer.value   = homeSplitAddress[2] || "";
+    }
+    else {
+        homeCityElemForServer.value = homeSplitAddress[1] || "";
+    }
     
     // Add post code from Google Place lookup
     var homePlace = homeAutocomplete.getPlace();
     if (homePlace) {
         var homeComponents = getComponentsByTypeObject(homePlace.address_components);
-        homeCityElemForServer.value += " " + homeComponents["postal_code"][0]["short_name"];
+        homeCityElemForServer.value += " " + (homeComponents["postal_code"][0]["short_name"] || "");
     }
     
     /* this code is nicer, but doesn't update when manually edited (e.g. to add a street number)
@@ -110,15 +115,20 @@ formElem.addEventListener("submit", function(ev) {
     // Populate hidden postal address fields
     if (postalAddressElem.value) {
         var postalSplitAddress = postalAddressElem.value.split(", ");
-        postalStreetElemForServer.value = postalSplitAddress[0];
-        postalSuburbElemForServer.value = postalSplitAddress[1];
-        postalCityElemForServer.value   = postalSplitAddress[2];
+        postalStreetElemForServer.value = postalSplitAddress[0] || "";
+        if (postalSplitAddress.length >= 3) {
+            postalSuburbElemForServer.value = postalSplitAddress[1] || "";
+            postalCityElemForServer.value   = postalSplitAddress[2] || "";
+        }
+        else {
+            postalCityElemForServer.value = postalSplitAddress[1] || "";
+        }
         
         // Add post code from Google Place lookup
         var postalPlace = postalAutocomplete.getPlace();
         if (postalPlace) {
             var postalComponents = getComponentsByTypeObject(postalPlace.address_components);
-            postalCityElemForServer.value += " " + postalComponents["postal_code"][0]["short_name"];
+            postalCityElemForServer.value += " " + (postalComponents["postal_code"][0]["short_name"] || "");
         }
     }
     // If postal address is empty, copy the home address
