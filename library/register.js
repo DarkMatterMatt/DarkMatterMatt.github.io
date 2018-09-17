@@ -18,6 +18,7 @@ var postalAddressElem         = document.querySelector("input[name=postal_addres
 var postalStreetElemForServer = document.querySelector("input[name=full_aaddress]");
 var postalSuburbElemForServer = document.querySelector("input[name=stre_aaddress]");
 var postalCityElemForServer   = document.querySelector("input[name=city_aaddress]");
+var postalPostCodeElemForServer = document.querySelector("input[name=post_aaddress]");
 
 function getComponentsByTypeObject(address_components) {
     // accepts a list of google address components
@@ -77,11 +78,6 @@ google.maps.event.addDomListener(window, "load", function() {
         homeAddressElem,
         { types: ["address"], sessiontoken: uuidv4() }
     );
-    // starts autocomplete for the element "postal_address"
-    postalAutocomplete = new google.maps.places.Autocomplete(
-        postalAddressElem,
-        { types: ["address"], sessiontoken: uuidv4() }
-    );
 });
 
 formElem.addEventListener("submit", function(ev) {
@@ -114,28 +110,20 @@ formElem.addEventListener("submit", function(ev) {
     
     // Populate hidden postal address fields
     if (postalAddressElem.value) {
-        var postalSplitAddress = postalAddressElem.value.split(", ");
+        var postalSplitAddress = postalAddressElem.value.split(",");
         postalStreetElemForServer.value = postalSplitAddress[0] || "";
-        if (postalSplitAddress.length >= 3) {
-            postalSuburbElemForServer.value = postalSplitAddress[1] || "";
-            postalCityElemForServer.value   = postalSplitAddress[2] || "";
-        }
-        else {
-            postalCityElemForServer.value = postalSplitAddress[1] || "";
-        }
-        
-        // Add post code from Google Place lookup
-        var postalPlace = postalAutocomplete.getPlace();
-        if (postalPlace) {
-            var postalComponents = getComponentsByTypeObject(postalPlace.address_components);
-            postalCityElemForServer.value += " " + (postalComponents["postal_code"][0]["short_name"] || "");
-        }
+        postalSuburbElemForServer.value = postalSplitAddress[1] || "";
+        postalCityElemForServer.value   = postalSplitAddress[2] || "";
+        postalPostCodeElemForServer.value = postalSplitAddress.slice(3).join(", ");
     }
-    // If postal address is empty, copy the home address
+    // If postal address is empty, move the home address to the primary field
     else {
         postalStreetElemForServer.value = homeStreetElemForServer.value;
         postalSuburbElemForServer.value = homeSuburbElemForServer.value;
         postalCityElemForServer.value   = homeCityElemForServer.value;
+        homeStreetElemForServer.value   = "";
+        homeSuburbElemForServer.value   = "";
+        homeCityElemForServer.value     = "";
     }
     
     // If member doesn't have a parent or guardian put the library in that field
