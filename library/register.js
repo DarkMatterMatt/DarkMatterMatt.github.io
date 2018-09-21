@@ -82,7 +82,7 @@ google.maps.event.addDomListener(window, "load", function() {
 
 formElem.addEventListener("submit", function(ev) {
     // Populate hidden DOB field
-    var day = (dobDayElem.value < 10 ? "0" : "") + dobDayElem.value;
+    var day = (dobDayElem.value.length == 1 ? "0" : "") + dobDayElem.value;
     dobElemForServer.value = day + dobMonthElem.value + dobYearElem.value;
     
     // Populate hidden home address fields
