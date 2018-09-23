@@ -1,0 +1,79 @@
+@keyframes f_flip-current {
+    from { transform: rotateX( 0deg) }
+    to   { transform: rotateX(90deg) }
+}
+
+@keyframes f_flip-new {
+    from { transform: rotateX(90deg) }
+    to   { transform: rotateX( 0deg) }
+}
+
+.f_flipper {
+    --f_length: 0;
+    --f_font-family: 'Roboto Mono', monospace;
+    --f_font-size: 100px;
+    --f_background-color: black;
+    --f_color: white;
+    --f_animation-duration: 200ms;
+    --f_text-align: left;
+    --f_default-text: ;
+}
+
+.f_flipper.demo {
+    --f_length: 10;
+    --f_font-family: 'Roboto Mono', monospace;
+    --f_font-size: 100px;
+    --f_background-color: green;
+    --f_color: red;
+    --f_animation-duration: 200ms;
+    --f_text-align: center;
+    --f_default-text: Default;
+}
+
+.f_flipper.demo2 {
+    --f_default-text: Demo2;
+    --f_animation-duration: 300ms;
+    --f_font-size: 70px;
+    --f_color: white;
+}
+
+.f_flipper.demo3 {
+    --f_default-text: hai?;
+    --f_background-color: black;
+    --f_font-size: 50px;
+}
+
+.f_character {
+    display: inline-block;
+    position: relative;
+    height: 1.15em;
+    width: .70em;
+    line-height: .85em;
+    border-radius: .1em;
+    
+    font-family: var(--f_font-family);
+    font-size: var(--f_font-size);
+    background-color: var(--f_background-color);
+    color: var(--f_color);
+}
+
+.f_current, .f_new {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: .05em;
+    white-space: pre;
+}
+
+.f_new {
+    transform: rotateX(90deg);
+}
+
+.f_current.f_animated {
+    animation: f_flip-current calc(var(--f_animation-duration) / 2) linear forwards;
+}
+
+.f_new.f_animated {
+    animation: f_flip-new calc(var(--f_animation-duration) / 2) linear forwards;
+    animation-delay: calc(var(--f_animation-duration) / 2);
+}
