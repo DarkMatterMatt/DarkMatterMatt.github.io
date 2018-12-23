@@ -1,0 +1,10 @@
+{
+    "esversion": 6,
+    "globalstrict": true,
+    "globals": {
+        "$": false,
+        "jQuery": false,
+        "moment": false
+    },
+    "browser": true
+}

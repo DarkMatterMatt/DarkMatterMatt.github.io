@@ -1,0 +1,124 @@
+#main {
+  padding: 0.5rem 1rem;
+}
+
+.table {
+  overflow-x: auto;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.col {
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.head {
+  padding: 0.5rem;
+  color:#fff;
+  background-color:#2196F3;
+}
+
+.col .head {
+  border-left: 1px solid lightgray;
+}
+
+.col:first-of-type .head {
+  border-left: none;
+}
+
+.input-wrapper {
+  display: flex;
+}
+
+.col .input-wrapper {
+  border-left: 1px solid gray;
+}
+
+.col:first-of-type .input-wrapper {
+  border-left: none;
+}
+
+input {
+  flex-grow: 1;
+  width: 0;
+  border: none;
+  padding: 0 0.2rem;
+}
+
+/* Column formatting */
+
+.date {
+  min-width: 5rem;
+}
+
+.num {
+  min-width: 2.5rem;
+}
+
+.pic {
+  min-width: 10rem;
+  flex-grow: 1;
+}
+
+.passenger {
+  min-width: 10rem;
+  flex-grow: 1;
+}
+
+.glider-reg {
+  min-width: 4rem;
+}
+
+.tow-reg {
+  min-width: 5.5rem;
+}
+
+.tow-pilot {
+  min-width: 10rem;
+}
+
+.take-off {
+  min-width: 5.5rem;
+}
+
+.tow-down {
+  min-width: 6.5rem;
+}
+
+.tow-height {
+  min-width: 7rem;
+}
+
+.glider-down {
+  min-width: 7.5rem;
+}
+
+.tow-time {
+  min-width: 6rem;
+}
+
+.glider-time {
+  min-width: 7rem;
+}
+
+.tow-cost {
+  min-width: 5rem;
+}
+
+.glider-cost {
+  min-width: 6rem;
+}
+
+.landing-fee {
+  min-width: 7.5rem;
+}
+
+.total-cost {
+  min-width: 5rem;
+}
+
+.comments {
+  min-width: 10rem;
+  flex-grow: 1;
+}
