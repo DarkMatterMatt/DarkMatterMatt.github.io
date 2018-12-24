@@ -52,69 +52,69 @@ input {
   min-width: 5rem;
 }
 
-.num {
+.flightNumber {
   min-width: 2.5rem;
 }
 
-.pic {
+.pilotInCommand {
   min-width: 10rem;
   flex-grow: 1;
 }
 
-.passenger {
+.studentPassenger {
   min-width: 10rem;
   flex-grow: 1;
 }
 
-.glider-reg {
+.glider {
   min-width: 4rem;
 }
 
-.tow-reg {
+.towReg {
   min-width: 5.5rem;
 }
 
-.tow-pilot {
+.towPilot {
   min-width: 10rem;
 }
 
-.take-off {
+.takeOff {
   min-width: 5.5rem;
 }
 
-.tow-down {
+.towDown {
   min-width: 6.5rem;
 }
 
-.tow-height {
+.towHeight {
   min-width: 7rem;
 }
 
-.glider-down {
+.gliderDown {
   min-width: 7.5rem;
 }
 
-.tow-time {
+.towTime {
   min-width: 6rem;
 }
 
-.glider-time {
+.gliderTime {
   min-width: 7rem;
 }
 
-.tow-cost {
+.towCost {
   min-width: 5rem;
 }
 
-.glider-cost {
+.gliderCost {
   min-width: 6rem;
 }
 
-.landing-fee {
+.landingFee {
   min-width: 7.5rem;
 }
 
-.total-cost {
+.totalCost {
   min-width: 5rem;
 }
 
