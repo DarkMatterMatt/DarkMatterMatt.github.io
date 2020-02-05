@@ -16,7 +16,8 @@ const gliders = [];
 const pilots = [];
 const towPlanes = [];
 const towPilots = [];
-let rows = [];
+
+let rows = []; // list of Rows (Row is a list of Cells)
 
 class Column {
     constructor(name, renderFunction, parseFunction) {
@@ -49,10 +50,150 @@ const cols = [
     new Column("comments")
 ];
 
+class Row {
+    constructor(rowIndex) {
+        this.rowIndex = rowIndex;
+
+        // create a Cell for each column
+        this.cells = [];
+        for (let i = 0; i < cols.length; i++) {
+            this.cells.push(Cell(rowIndex, i));
+        }
+    }
+    addToDOM() {
+        for (let i = 0; i < this.cells.length; i++) {
+            this.cells[i].addToDOM();
+        }
+    }
+    isEmpty() {
+        return this.cells.every(cell => cell.val() !== "");
+    }
+}
+
+class Cell {
+    constructor(rowIndex, colIndex) {
+        this.rowIndex = rowIndex;
+        this.colIndex = colIndex;
+        this._parse = cols[this.colIndex].parse;
+        this._render = cols[this.colIndex].render;
+        this._val = "";
+        this.inDOM = false;
+
+        this.$wrapperDiv = $("<div>").addClass("input-wrapper");
+        this.$input = $("<input>");
+        this.$wrapperDiv.append(this.$input);
+
+        this.$input.on("change", ev => {
+            // parse user input
+            if (this.$input.val()) {
+                this._val = this._parse(this.$input.val());
+            }
+
+            save();
+
+            // there should always be one blank row
+            if (rows[rows.length - 1].isEmpty()) {
+                insertRow();
+            }
+        });
+    }
+    addToDOM() {
+        cols[this.colIndex].$elem.find("div").eq(this.rowIndex).after(this.$wrapperDiv);
+        this.val(this.value);
+    }
+    val(newValue) {
+        if (newValue === undefined) {
+            return this._val;
+        }
+        this._val = newValue;
+        this.$input.val(this._render(newValue));
+    }
+}
+
 const colIndexMap = {};
 cols.forEach((col, i) => colIndexMap[col.name] = i);
 
 const $window = $(window);
+
+class Aircraft {
+    /*
+    reg
+    owner
+    manufacturer
+    model
+    */
+    constructor(registration) {
+        this.registration(registration);
+    }
+    getOrSet(key, value) {
+        if (value == undefined) {
+            return this[key];
+        }
+        this[key] = value;
+    }
+    registration(newValue) {
+        return this.getOrSet("registration", newValue);
+    }
+    manufacturer(newValue) {
+        return this.getOrSet("manufacturer", newValue);
+    }
+    ownerName(newValue) {
+        return this.getOrSet("ownerName", newValue);
+    }
+    ownerUniqueId(newValue) {
+        return this.getOrSet("ownerUniqueId", newValue);
+    }
+    model(newValue) {
+        return this.getOrSet("model", newValue);
+    }
+}
+class Pilot {
+    /*
+    reg
+    owner
+    manufacturer
+    model
+    */
+    constructor(firstName, lastName) {
+        this.firstName(firstName);
+        this.lastName(this.lastName = lastName);
+    }
+    getOrSet(key, value) {
+        if (value == undefined) {
+            return this[key];
+        }
+        this[key] = value;
+    }
+    firstName(newValue) {
+        return this.getOrSet("firstName", newValue);
+    }
+    lastName(newValue) {
+        return this.getOrSet("lastName", newValue);
+    }
+    uniqueId(newValue) {
+        return this.getOrSet("uniqueId", newValue);
+    }
+}
+class TowPlane extends Aircraft {
+    constructor(registration) {
+        super(registration);
+    }
+}
+class Glider extends Aircraft {
+    constructor(registration) {
+        super(registration);
+    }
+}
+class TowPilot extends Pilot {
+    constructor(firstName, lastName) {
+        super(firstName, lastName);
+    }
+}
+class GliderPilot extends Pilot {
+    constructor(firstName, lastName) {
+        super(firstName, lastName);
+    }
+}
 
 /* RENDER */
 
@@ -63,10 +204,10 @@ $.contextMenu({
         const [rowIndex, colIndex] = getIndexesFromInput(options.$trigger);
         switch (key) {
             case "insert":
-                insertRow(rowIndex);
+                //insertRow(rowIndex);
                 break;
             case "delete":
-                deleteRow(rowIndex);
+                //deleteRow(rowIndex);
                 break;
         }
     },
@@ -82,82 +223,13 @@ $.contextMenu({
     }
 });
 
-function renderEntriesTab() {
-    // wipe all & re-render rows
-    $(".col").children("div").not(".head").remove();
-    for (let i = 0; i < rows.length; i++) {
-        renderEntriesTabRow(i, true);
-    }
-}
-
-function renderEntriesTabRow(rowIndex, createRow) {
-    // render every column in a single row
-    for (let i = 0; i < cols.length; i++) {
-        renderEntriesTabRowCol(rowIndex, i, createRow);
-    }
-}
-
-function renderEntriesTabRowCol(rowIndex, colIndex, createRow) {
-    let colValue = rows[rowIndex][colIndex];
-    colValue = colValue === undefined ? "" : cols[colIndex].render(colValue);
-
-    // create a new row, add the value & "change" event listener
-    if (createRow) {
-        // create the `<div class="input-wrapper"><input></div>` and keep references to them
-        const $div = $("<div>").addClass("input-wrapper");
-        const $input = $("<input>");
-        $div.append($input);
-        cols[colIndex].$elem.find("div").eq(rowIndex).after($div);
-
-        $input.val(colValue);
-        // on change, update our stored data
-        $input.on("change", ev => onInputChanged($input));
-    }
-    // edit existing row's value
-    else {
-        cols[colIndex].$elem.find("input").eq(rowIndex).val(colValue);
-    }
-}
-
-function rowIsEmpty(rowIndex) {
-    // support negative indexing
-    if (rowIndex < 0) {
-        rowIndex += rows.length;
-    }
-    // make copy of row (so things can be deleted)
-    const row = rows[rowIndex].slice();
-    delete row[colIndexMap.date];
-    delete row[colIndexMap.flightNumber];
-
-    // if everything in the row is empty return true
-    return row.every(v => !v);
-}
-
 function getFlightNumber(rowIndex) {
     // support negative indexing
     if (rowIndex < 0) {
         rowIndex += rows.length;
     }
     // returns the last flight number, else zero
-    return rows[rowIndex][colIndexMap.flightNumber];
-}
-
-function getIndexesFromInput($elem) {
-    const $col = $elem.parent().parent();
-    const rowIndex = $elem.parent().index() - 1; // -1 to remove column header
-    const colIndex = $col.index();
-    return [rowIndex, colIndex];
-}
-
-function onInputChanged($input) {
-    const [rowIndex, colIndex] = getIndexesFromInput($input);
-    rows[rowIndex][colIndex] = cols[colIndex].parse($input.val());
-    save();
-
-    // there should always be one blank row
-    if (!rowIsEmpty(-1)) {
-        insertRow();
-    }
+    return rows[rowIndex][colIndexMap.flightNumber].val() || 0;
 }
 
 function insertRow(newRowIndex) {
@@ -168,14 +240,23 @@ function insertRow(newRowIndex) {
 
     // adds a (almost) blank row
     // contains pre-filled date (today) and flight number (increment last flight number)
-    const row = [];
-    row[colIndexMap.date] = moment();
-    row[colIndexMap.flightNumber] = newRowIndex == 0 ? 1 : getFlightNumber(newRowIndex-1) + 1;
+    const row = Row(newRowIndex);
+    row.addToDOM();
+    row.cells[colIndexMap.date].val(moment());
+    row.cells[colIndexMap.flightNumber].val(newRowIndex === 0 ? 1 : getFlightNumber(newRowIndex - 1) + 1);
+    
+    // if inserting, then increment all rowIndexes below it
+    if (newRowIndex !== rows.length) {
+        for (let i = newRowIndex; i < rows.length; i++) {
+            rows[i].rowIndex++;
+            for (let j = 0; j < rows[i].cells.length; j++) {
+                rows[i].cells[j].rowIndex++;
+            }
+        }
+    }
+    rows.splice(newRowIndex, 0, row)
 
-    // add row & render
-    rows.splice(newRowIndex, 0, row);
     save();
-    renderEntriesTabRow(newRowIndex, true);
 }
 
 function deleteRow(rowIndex) {
@@ -194,7 +275,7 @@ function deleteRow(rowIndex) {
     }
 
     // there should always be one blank row
-    if (!rows.length || !rowIsEmpty(-1)) {
+    if (!rows.length || !rows[rows.length - 1].isEmpty()) {
         insertRow();
     }
 }
@@ -236,7 +317,7 @@ function migrateSave(save, version) {
     } else {
         const message = "ERROR: migrateSave: version [" + version.join(".") + "] is not supported.";
         window.alert(message);
-        throw(message);
+        throw (message);
     }
 }
 
